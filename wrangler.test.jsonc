@@ -10,7 +10,7 @@
     ]
   },
   "migrations": [
-    { "tag": "v1", "new_classes": ["BackupContainer"] }
+    { "tag": "v1", "new_sqlite_classes": ["BackupContainer"] }
   ],
   "vars": {
     "R2_ACCOUNT_ID": "REPLACE_ME",
