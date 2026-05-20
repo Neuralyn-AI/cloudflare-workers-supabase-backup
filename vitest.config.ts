@@ -1,11 +1,16 @@
-import { defineWorkersConfig } from "@cloudflare/vitest-pool-workers/config";
+import { defineConfig } from "vitest/config";
 
-export default defineWorkersConfig({
+// Node pool: runs tests that use node:child_process, @aws-sdk, or plain node APIs.
+// Add new test files here as they are created (Tasks 3–8).
+export default defineConfig({
   test: {
-    poolOptions: {
-      workers: {
-        wrangler: { configPath: "./wrangler.jsonc" }
-      }
-    }
-  }
+    name: "node",
+    include: [
+      "tests/object-key.test.ts",
+      "tests/notifier.test.ts",
+      "tests/dump.test.ts",
+      "tests/upload.test.ts",
+    ],
+    environment: "node",
+  },
 });
