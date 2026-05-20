@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/@cloudflare/vitest-pool-workers/node_modules/wrangler/config-schema.json",
+  "name": "neuralyn-supabase-backup",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-01-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "durable_objects": {
+    "bindings": [
+      { "name": "BACKUP", "class_name": "BackupContainer" }
+    ]
+  },
+  "migrations": [
+    { "tag": "v1", "new_classes": ["BackupContainer"] }
+  ],
+  "vars": {
+    "R2_ACCOUNT_ID": "REPLACE_ME",
+    "R2_BUCKET": "REPLACE_ME",
+    "R2_PREFIX": "supabase-backups/",
+    "MAIL_PROVIDER": "resend",
+    "MAIL_FROM": "backups@example.com",
+    "MAIL_TO": "ops@example.com",
+    "BACKUP_TIMEOUT_MS": "1500000"
+  }
+}

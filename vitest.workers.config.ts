@@ -8,7 +8,7 @@ export default defineWorkersConfig({
     passWithNoTests: true,
     poolOptions: {
       workers: {
-        wrangler: { configPath: "./wrangler.jsonc" },
+        wrangler: { configPath: "./wrangler.test.jsonc" },
       },
     },
   },
