@@ -4,7 +4,7 @@ import type { RunResponse } from "../src/types";
 
 type Env = {
   BACKUP: any;
-  DATABASE_URL: string;
+  BACKUP_DATABASE_URL: string;
   R2_ACCOUNT_ID: string;
   R2_BUCKET: string;
   R2_ACCESS_KEY_ID: string;
@@ -32,7 +32,7 @@ function makeEnv(containerResponse: RunResponse | Error): Env {
       idFromName: () => "id-1",
       get: () => fetcher,
     },
-    DATABASE_URL: "postgres://u:p@h:5432/db",
+    BACKUP_DATABASE_URL: "postgres://u:p@h:5432/db",
     R2_ACCOUNT_ID: "acc",
     R2_BUCKET: "bkt",
     R2_ACCESS_KEY_ID: "ak",

@@ -12,7 +12,7 @@ See [docs/superpowers/specs/2026-05-19-supabase-backup-design.md](docs/superpowe
 2. Edit `wrangler.jsonc` `vars` block: set `R2_ACCOUNT_ID`, `R2_BUCKET`, `MAIL_FROM`, `MAIL_TO`, `MAIL_PROVIDER`.
 3. Set secrets:
    ```bash
-   wrangler secret put DATABASE_URL
+   wrangler secret put BACKUP_DATABASE_URL
    wrangler secret put R2_ACCESS_KEY_ID
    wrangler secret put R2_SECRET_ACCESS_KEY
    wrangler secret put MAIL_API_KEY

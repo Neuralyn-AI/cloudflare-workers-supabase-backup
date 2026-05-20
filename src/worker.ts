@@ -6,7 +6,7 @@ export { BackupContainer } from "./container.js";
 
 type Env = {
   BACKUP: DurableObjectNamespace;
-  DATABASE_URL: string;
+  BACKUP_DATABASE_URL: string;
   R2_ACCOUNT_ID: string;
   R2_BUCKET: string;
   R2_ACCESS_KEY_ID: string;
@@ -31,7 +31,7 @@ async function runBackup(event: ScheduledEvent, env: Env) {
   const objectKey = buildObjectKey(env.R2_PREFIX, new Date(event.scheduledTime));
 
   const reqBody: RunRequest = {
-    databaseUrl: env.DATABASE_URL,
+    databaseUrl: env.BACKUP_DATABASE_URL,
     r2: {
       accountId: env.R2_ACCOUNT_ID,
       bucket: env.R2_BUCKET,
