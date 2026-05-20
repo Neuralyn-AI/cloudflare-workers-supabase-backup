@@ -31,10 +31,19 @@ describe("runPgDump", () => {
       onChunk: (c) => { chunks.push(c); },
     });
 
-    expect(spawn).toHaveBeenCalledWith("pg_dump", [
-      "-Fc", "--no-owner", "--no-privileges", "-v",
-      "-d", "postgres://u:p@h:5432/db",
-    ], expect.any(Object));
+    expect(spawn).toHaveBeenCalledWith(
+      "pg_dump",
+      ["-Fc", "--no-owner", "--no-privileges", "-v"],
+      expect.objectContaining({
+        env: expect.objectContaining({
+          PGHOST: "h",
+          PGPORT: "5432",
+          PGUSER: "u",
+          PGPASSWORD: "p",
+          PGDATABASE: "db",
+        }),
+      })
+    );
     expect(Buffer.concat(chunks).toString()).toBe("HEADTAIL");
     expect(result.exitCode).toBe(0);
     expect(result.stderrTail).toBe("");
@@ -54,7 +63,7 @@ describe("runPgDump", () => {
     expect(result.stderrTail.length).toBeLessThanOrEqual(2048);
   });
 
-  it("kills the process on abort signal", async () => {
+  it("kills the process on abort signal and rejects with abort error", async () => {
     const proc = fakeProcess([Buffer.from("partial")], "", 0);
     (spawn as any).mockReturnValue(proc);
 
@@ -65,8 +74,21 @@ describe("runPgDump", () => {
       signal: ac.signal,
     });
     ac.abort();
-    await promise.catch(() => {});
 
+    await expect(promise).rejects.toThrow(/abort/i);
     expect(proc.kill).toHaveBeenCalledWith("SIGTERM");
+  });
+
+  it("sanitizes postgres credentials from stderrTail", async () => {
+    const stderrText = "connection to postgres://user:pass@host:5432/db failed";
+    (spawn as any).mockReturnValue(fakeProcess([], stderrText, 1));
+
+    const result = await runPgDump({
+      databaseUrl: "postgres://user:pass@host:5432/db",
+      onChunk: () => {},
+    });
+
+    expect(result.stderrTail).toContain("postgres://***@");
+    expect(result.stderrTail).not.toContain("user:pass");
   });
 });
