@@ -24,20 +24,6 @@ See [docs/superpowers/specs/2026-05-19-supabase-backup-design.md](docs/superpowe
 - Unit tests: `npm test`
 - Manual trigger after deploy: invoke the scheduled handler via the Cloudflare dashboard "Trigger" button, or `wrangler dev --test-scheduled` then hit `http://localhost:8787/__scheduled`.
 
-## Restore
-
-```bash
-aws s3 cp --endpoint-url=https://$R2_ACCOUNT_ID.r2.cloudflarestorage.com \
-  s3://$R2_BUCKET/supabase-backups/2026/05/19/backup-2026-05-19T18-00-00Z.dump \
-  ./backup.dump
-
-# Inspect contents
-pg_restore -l ./backup.dump
-
-# Restore into a target database
-pg_restore -d "$RESTORE_URL" --no-owner --no-privileges -j 4 ./backup.dump
-```
-
 ## Postgres version
 
 Container uses `postgresql16-client`. If Supabase upgrades to Postgres 17+, update the `apk add postgresql<major>-client` line in `container/Dockerfile`.
