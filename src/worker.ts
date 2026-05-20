@@ -21,7 +21,7 @@ type Env = {
 
 export default {
   async scheduled(event: ScheduledEvent, env: Env, ctx: ExecutionContext) {
-    await ctx.waitUntil(runBackup(event, env));
+    await runBackup(event, env);
   },
 };
 
