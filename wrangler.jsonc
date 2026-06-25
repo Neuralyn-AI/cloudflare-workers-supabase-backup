@@ -11,7 +11,6 @@
     {
       "class_name": "BackupContainer",
       "image": "./container/Dockerfile",
-      "instances": 1,
       "max_instances": 1
     }
   ],
