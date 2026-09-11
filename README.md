@@ -1,6 +1,4 @@
-# neuralyn-supabase-backup
-
-Automated Supabase Postgres backup to Cloudflare R2, every 6 hours.
+# Automated Supabase Postgres backup to Cloudflare R2
 
 A Cloudflare Worker runs on a cron schedule, invokes a container that streams
 `pg_dump -Fc` straight into an R2 multipart upload, and emails on failure.
